@@ -4,8 +4,8 @@ import scala.concurrent.ExecutionContext
 import scala.util.{Failure, Success}
 
 object Getter{
-  case class Done()
-  case class Abort()
+  case object Done
+  case object Abort
 }
 
 class Getter(url: String, depth: Int) extends Actor {
