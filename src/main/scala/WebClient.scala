@@ -23,4 +23,6 @@ object WebClient {
     p.future
   }
 
+  //close the underlying connections
+  def shutdown(): Unit = client.close()
 }

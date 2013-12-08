@@ -18,15 +18,19 @@ class Main extends Actor {
     case ReceiveTimeout =>
       println("STOP STOP SOP!")
       context.stop(self)
+      //discussion on shutdown patterns: http://letitcrash.com/post/30165507578/shutdown-patterns-in-akka-2
+      context.system.shutdown()
   }
 
-//what could we possibly need to do there?
-//  override def postStop(): Unit = {
-//    WebClient.shutdown()
-//  }
+  //The postStop hook is invoked after an actor is fully stopped. This enables cleaning up of resources
+  //http://doc.akka.io/docs/akka/snapshot/scala/actors.html
+  override def postStop(): Unit = {
+    WebClient.shutdown()
+  }
 }
 
-import _root_.akka.Main
-object Application extends App {
-  Main.main(Array("Main"))
+object Main extends App {
+  println("Starting actors...")
+  val system = ActorSystem("UrlGetter")
+  val myActor = system.actorOf(Props[Main], name = "MainActor")
 }
