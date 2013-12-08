@@ -8,7 +8,7 @@ object Controller{
 }
 
 class Controller extends Actor with ActorLogging{
-  //this is reset every time we get a message, else sends us Abort
+  //this is reset every time we get a message, else sends us ReceiveTimeout
   context.setReceiveTimeout(10.seconds)
 
   var cache = Set.empty[String]
@@ -16,7 +16,9 @@ class Controller extends Actor with ActorLogging{
   def receive = {
 
     case Controller.Check(url, depth) =>
+      println(s"CHECKING: $depth checking $url")
       log.debug("{} checking {}", depth, url)
+
       if (!cache(url) && depth>0)
         children += context.actorOf( Props(classOf[Getter], url, depth-1) )
         //above is the prefered way according to the docs, avoid closing over this scope

@@ -4,7 +4,7 @@ import scala.concurrent.duration._
 class Main extends Actor {
   import Receptionist._
 
-  val receptionist = context.actorOf(Props[Receptionist], "receptionsit")
+  val receptionist = context.actorOf(Props[Receptionist], "receptionist")
 
   receptionist ! Get("http://www.google.com")
 
@@ -20,6 +20,7 @@ class Main extends Actor {
       context.stop(self)
   }
 
+//what could we possibly need to do there?
 //  override def postStop(): Unit = {
 //    WebClient.shutdown()
 //  }
