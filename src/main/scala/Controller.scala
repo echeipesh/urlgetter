@@ -4,7 +4,6 @@ import scala.concurrent.duration._
 object Controller{
   case class Check(s: String, i: Int)
   case class Result(s: Set[String])
-  case class Done()
 }
 
 class Controller extends Actor with ActorLogging{
@@ -33,7 +32,6 @@ class Controller extends Actor with ActorLogging{
 
     case ReceiveTimeout =>
       children foreach (_ ! Getter.Abort)
-      context.parent ! Controller.Done
-      context.stop(self)
+      //nothing else needs to be done because Receptionist also has Timeout
   }
 }
